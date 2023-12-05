@@ -18,7 +18,7 @@ file_type = st.selectbox('Select file type', ['PDF', 'Excel', 'Word', 'Image', '
 def connect_to_gmail():
     SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
     flow = InstalledAppFlow.from_client_secrets_file(
-        'C:\Users\S13\credentials.json', SCOPES)
+        'C://Users//S13//credentials.json', SCOPES)
     creds = flow.run_local_server(port=0)
     service = build('gmail', 'v1', credentials=creds)
     return service
