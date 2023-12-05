@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import streamlit as st
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 import base64
-import os
 
 # Create a Streamlit web interface
 st.title('Gmail File Extractor')
@@ -22,7 +18,7 @@ file_type = st.selectbox('Select file type', ['PDF', 'Excel', 'Word', 'Image', '
 def connect_to_gmail():
     SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
     flow = InstalledAppFlow.from_client_secrets_file(
-        'credentials.json', SCOPES)
+        'C:\Users\S13\credentials.json', SCOPES)
     creds = flow.run_local_server(port=0)
     service = build('gmail', 'v1', credentials=creds)
     return service
@@ -36,7 +32,7 @@ def extract_files_from_gmail(email, password, file_type):
     # You would need to implement the logic to search for and retrieve the specific file types here
 
     # Example: Search for emails with PDF attachments
-    results = gmail_service.users().messages().list(userId='me', q='filename:pdf').execute()
+    results = gmail_service.users().messages().list(userId='me', q=f'filename:{file_type.lower()}').execute()
     messages = results.get('messages', [])
 
     # Iterate through the messages and retrieve the attachments
@@ -53,10 +49,3 @@ def extract_files_from_gmail(email, password, file_type):
 if st.button('Extract Files'):
     extract_files_from_gmail(email, password, file_type)
     st.write('Files extracted successfully!')
-
-
-# In[ ]:
-
-
-
-
